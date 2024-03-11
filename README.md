@@ -5,9 +5,13 @@ I originally made this program as a **3D grapher** to graph the **imaginary plan
 <img src="assets/images/1.png">
 <img src="assets/images/2.png">
 
-# Controls
+# Camera Controls
+- **SHIFT + M_MOUSE** Pan camera
+- **M_MOUSE** Rotate camera about origin
+
+# Movement Controls
 - **W, S, A, D** Basic movement
-- **Ctrl** Increase movement speed (while held down)
+- **CTRL** Increase movement speed (while held down)
 - **Z, X** Move up and down
 - **Q, E** Rotate camera counter-clockwise/clockwise
 
