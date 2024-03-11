@@ -48,33 +48,37 @@ namespace Simple3DRenderer
             double tempRotationZ_2 = point.x * Math.Sin(radiansY) + tempRotationZ_1 * Math.Cos(radiansY);
 
             // camera z rotation
-			Vector3D rotatedPoint = new Vector3D();
-            rotatedPoint.x = tempRotationX_1 * Math.Cos(radiansZ) + tempRotationY_1 * Math.Sin(radiansZ);
-            rotatedPoint.y = -tempRotationX_1 * Math.Sin(radiansZ) + tempRotationY_1 * Math.Cos(radiansZ);
-            rotatedPoint.z = tempRotationZ_2;
+            Vector3D rotatedPoint = new Vector3D
+            {
+                x = tempRotationX_1 * Math.Cos(radiansZ) + tempRotationY_1 * Math.Sin(radiansZ),
+                y = -tempRotationX_1 * Math.Sin(radiansZ) + tempRotationY_1 * Math.Cos(radiansZ),
+                z = tempRotationZ_2
+            };
 
             return rotatedPoint;
         }
 
         public static Vector3D Translate3DPoint(Vector3D point, double x, double y, double z)
         {
-            Vector3D translatedPoint = new Vector3D();
-
-            translatedPoint.x = point.x + x;
-            translatedPoint.y = point.y + y;
-            translatedPoint.z = point.z + z;
+            Vector3D translatedPoint = new Vector3D
+            {
+                x = point.x + x,
+                y = point.y + y,
+                z = point.z + z
+            };
 
             return translatedPoint;
         }
 
         public static Point Project3DPoint(Vector3D inputPoint, double focalLength)
         {
-            Point projectedPoint = new Point();
-
-            // projects 3d points to 2d
-            // FORMULA: PX = (X * FOV) / (Z + FOV)
-            projectedPoint.X = (int)((inputPoint.x * focalLength) / (inputPoint.z + focalLength));
-            projectedPoint.Y = (int)((inputPoint.y * focalLength) / (inputPoint.z + focalLength));
+            Point projectedPoint = new Point
+            {
+                // projects 3d points to 2d
+                // FORMULA: PX = (X * FOV) / (Z + FOV)
+                X = (int)((inputPoint.x * focalLength) / (inputPoint.z + focalLength)),
+                Y = (int)((inputPoint.y * focalLength) / (inputPoint.z + focalLength))
+            };
 
             return projectedPoint;
         }

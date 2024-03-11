@@ -1,12 +1,11 @@
 ﻿using System;
+using System.Timers;
 using System.Windows.Forms;
 using System.Drawing;
 using System.Collections.Generic;
 
 using static Simple3DRenderer.Shapes;
 using static Simple3DRenderer.MathTools;
-using System.Timers;
-using System.Reflection;
 
 namespace Simple3DRenderer
 {
@@ -26,7 +25,7 @@ namespace Simple3DRenderer
         int initalMouse_x = 0;
         int initalMouse_y = 0;
 
-        List<Vector3D> globalPoints = new List<Vector3D>();
+        private static readonly List<Vector3D> globalPoints = new List<Vector3D>();
 
         public MainWindow()
         {
@@ -41,17 +40,18 @@ namespace Simple3DRenderer
             Vector3D[] imaginaryCurve = Graph.CreateImaginaryCurve(0, 0, 0, 10, 10, 100, 100);
             AddObjectToWorld(imaginaryCurve);
 
-/*            for (int x = 0; x < 10; x++)
+            // 10x10x10 cubes
+            for (int x = 0; x < 10; x++)
             {
                 for (int y = 0; y < 10; y++)
                 {
                     for (int z = 0; z < 10; z++)
                     {
-                        Vector3D[] cube = Geometry.CreateCube(x * 200, y * 200, z * 200, 20, 20, 20);
+                        Vector3D[] cube = Geometry.CreateCube(x * 50, y * 50, z * 50, 20, 20, 20);
                         AddObjectToWorld(cube);
                     }
                 }
-            }*/
+            }
         }
 
         private void AddObjectToWorld(Vector3D[] points)
@@ -67,124 +67,189 @@ namespace Simple3DRenderer
             // get the picturebox graphics object
             Graphics g = e.Graphics;
 
-            Pen gridPen = new Pen(Color.FromArgb(255, 100, 100, 100));
-
-            for (int y = -100; y < 100; y++)
+            // draw 2d grid
             {
-                Vector3D point = new Vector3D();
-                point.x = 0;
-                point.y = y * -10;
-                point.z = 0;
+                Pen gridPen = new Pen(Color.FromArgb(255, 100, 100, 100));
 
-                Vector3D point2 = new Vector3D();
-                point2.x = 0;
-                point2.y = y * -10;
-                point2.z = 10 * 100 * 2 - 10;
+                for (int y = -100; y < 100; y++)
+                {
+                    Vector3D point = new Vector3D
+                    {
+                        x = 0,
+                        y = y * -10,
+                        z = 0
+                    };
 
-                Point point1_proj = Process3DPoint(point, -worldTranslateX, worldTranslateY, -worldTranslateZ, worldRotateX, worldRotateY, worldRotateZ, cameraFocalLength);
-                Point point2_proj = Process3DPoint(point2, -worldTranslateX, worldTranslateY, -worldTranslateZ, worldRotateX, worldRotateY, worldRotateZ, cameraFocalLength);
-                g.DrawLine(gridPen, point1_proj.X, point1_proj.Y, point2_proj.X, point2_proj.Y);
+                    Vector3D point2 = new Vector3D
+                    {
+                        x = 0,
+                        y = y * -10,
+                        z = 10 * 100 * 2 - 10
+                    };
+
+                    Point point1_proj = Process3DPoint(point, -worldTranslateX, worldTranslateY, -worldTranslateZ, worldRotateX, worldRotateY, worldRotateZ, cameraFocalLength);
+                    Point point2_proj = Process3DPoint(point2, -worldTranslateX, worldTranslateY, -worldTranslateZ, worldRotateX, worldRotateY, worldRotateZ, cameraFocalLength);
+
+                    int point1_projX = point1_proj.X + viewportOffsetX;
+                    int point1_projY = point1_proj.Y + viewportOffsetY;
+
+                    int point2_projX = point2_proj.X + viewportOffsetX;
+                    int point2_projY = point2_proj.Y + viewportOffsetY;
+
+                    try
+                    {
+                        g.DrawLine(gridPen, point1_projX, point1_projY, point2_projX, point2_projY);
+                    }
+                    catch
+                    {
+
+                    }
+                }
+
+                for (int z = 0; z < 200; z++)
+                {
+                    Vector3D point = new Vector3D
+                    {
+                        x = 0,
+                        y = 100 * 10,
+                        z = z * 10
+                    };
+
+                    Vector3D point2 = new Vector3D
+                    {
+                        x = 0,
+                        y = 10 + -100 * 10,
+                        z = z * 10
+                    };
+
+                    Point point1_proj = Process3DPoint(point, -worldTranslateX, worldTranslateY, -worldTranslateZ, worldRotateX, worldRotateY, worldRotateZ, cameraFocalLength);
+                    Point point2_proj = Process3DPoint(point2, -worldTranslateX, worldTranslateY, -worldTranslateZ, worldRotateX, worldRotateY, worldRotateZ, cameraFocalLength);
+
+                    int point1_projX = point1_proj.X + viewportOffsetX;
+                    int point1_projY = point1_proj.Y + viewportOffsetY;
+
+                    int point2_projX = point2_proj.X + viewportOffsetX;
+                    int point2_projY = point2_proj.Y + viewportOffsetY;
+
+                    try
+                    {
+                        g.DrawLine(gridPen, point1_projX, point1_projY, point2_projX, point2_projY);
+                    }
+                    catch
+                    {
+
+                    }
+                }
             }
 
-            for (int z = 0; z < 200; z++)
+            // draw axis
             {
-                Vector3D point = new Vector3D();
-                point.x = 0;
-                point.y = 100 * 10;
-                point.z = z * 10;
+                Vector3D originPoint = new Vector3D
+                {
+                    x = 0,
+                    y = 0,
+                    z = 0
+                };
 
-                Vector3D point2 = new Vector3D();
-                point2.x = 0;
-                point2.y = 10 + -100 * 10;
-                point2.z = z * 10;
+                Point originPoint_rot_projected = Process3DPoint(originPoint, -worldTranslateX, worldTranslateY, -worldTranslateZ, worldRotateX, worldRotateY, worldRotateZ, cameraFocalLength);
 
-                Point point1_proj = Process3DPoint(point, -worldTranslateX, worldTranslateY, -worldTranslateZ, worldRotateX, worldRotateY, worldRotateZ, cameraFocalLength);
-                Point point2_proj = Process3DPoint(point2, -worldTranslateX, worldTranslateY, -worldTranslateZ, worldRotateX, worldRotateY, worldRotateZ, cameraFocalLength);
-                g.DrawLine(gridPen, point1_proj.X, point1_proj.Y, point2_proj.X, point2_proj.Y);
-            }
+                int originPointX = originPoint_rot_projected.X + viewportOffsetX;
+                int originPointY = originPoint_rot_projected.Y + viewportOffsetY;
 
-            Vector3D originPoint = new Vector3D();
-            originPoint.x = 0;
-            originPoint.y = 0;
-            originPoint.z = 0;
+                Vector3D xAxisPoint = new Vector3D
+                {
+                    x = 10000,
+                    y = 0,
+                    z = 0
+                };
 
-            Point originPoint_rot_projected = Process3DPoint(originPoint, -worldTranslateX, worldTranslateY, -worldTranslateZ, worldRotateX, worldRotateY, worldRotateZ, cameraFocalLength);
+                Point xAxisPoint_rot_projected = Process3DPoint(xAxisPoint, -worldTranslateX, worldTranslateY, -worldTranslateZ, worldRotateX, worldRotateY, worldRotateZ, cameraFocalLength);
 
-            Vector3D xAxisPoint = new Vector3D();
-            xAxisPoint.x = 10000;
-            xAxisPoint.y = 0;
-            xAxisPoint.z = 0;
+                Vector3D yAxisPoint = new Vector3D
+                {
+                    x = 0,
+                    y = 10000,
+                    z = 0
+                };
 
-            Point xAxisPoint_rot_projected = Process3DPoint(xAxisPoint, -worldTranslateX, worldTranslateY, -worldTranslateZ, worldRotateX, worldRotateY, worldRotateZ, cameraFocalLength);
+                Point yAxisPoint_rot_projected = Process3DPoint(yAxisPoint, -worldTranslateX, worldTranslateY, -worldTranslateZ, worldRotateX, worldRotateY, worldRotateZ, cameraFocalLength);
 
-            Vector3D yAxisPoint = new Vector3D();
-            yAxisPoint.x = 0;
-            yAxisPoint.y = 10000;
-            yAxisPoint.z = 0;
+                Vector3D zAxisPoint = new Vector3D
+                {
+                    x = 0,
+                    y = 0,
+                    z = 10000
+                };
 
-            Point yAxisPoint_rot_projected = Process3DPoint(yAxisPoint, -worldTranslateX, worldTranslateY, -worldTranslateZ, worldRotateX, worldRotateY, worldRotateZ, cameraFocalLength);
+                Point zAxisPoint_rot_projected = Process3DPoint(zAxisPoint, -worldTranslateX, worldTranslateY, -worldTranslateZ, worldRotateX, worldRotateY, worldRotateZ, cameraFocalLength);
 
-            Vector3D zAxisPoint = new Vector3D();
-            zAxisPoint.x = 0;
-            zAxisPoint.y = 0;
-            zAxisPoint.z = 10000;
+                Pen xAxisPen = new Pen(Color.FromArgb(255, 255, 255, 100));
+                try
+                {
+                    int pointX = xAxisPoint_rot_projected.X + viewportOffsetX;
+                    int pointY = xAxisPoint_rot_projected.Y + viewportOffsetY;
+                    g.DrawLine(xAxisPen, originPointX, originPointY, pointX, pointY);
+                }
+                catch
+                {
 
-            Point zAxisPoint_rot_projected = Process3DPoint(zAxisPoint, -worldTranslateX, worldTranslateY, -worldTranslateZ, worldRotateX, worldRotateY, worldRotateZ, cameraFocalLength);
+                }
 
-            Pen xAxisPen = new Pen(Color.FromArgb(255, 255, 255, 100));
-            try
-            {
-                g.DrawLine(xAxisPen, originPoint_rot_projected.X, originPoint_rot_projected.Y, xAxisPoint_rot_projected.X, xAxisPoint_rot_projected.Y);
-            }
-            catch
-            {
+                Pen yAxisPen = new Pen(Color.FromArgb(255, 255, 255, 255));
+                try
+                {
+                    int pointX = yAxisPoint_rot_projected.X + viewportOffsetX;
+                    int pointY = yAxisPoint_rot_projected.Y + viewportOffsetY;
+                    g.DrawLine(yAxisPen, originPointX, originPointY, pointX, pointY);
+                }
+                catch
+                {
 
-            }
+                }
 
-            Pen yAxisPen = new Pen(Color.FromArgb(255, 255, 255, 255));
-            try
-            {
-                g.DrawLine(yAxisPen, originPoint_rot_projected.X, originPoint_rot_projected.Y, yAxisPoint_rot_projected.X, yAxisPoint_rot_projected.Y);
-            }
-            catch
-            {
+                Pen zAxisPen = new Pen(Color.FromArgb(255, 255, 255, 255));
+                try
+                {
+                    int pointX = zAxisPoint_rot_projected.X + viewportOffsetX;
+                    int pointY = zAxisPoint_rot_projected.Y + viewportOffsetY;
+                    g.DrawLine(zAxisPen, originPointX, originPointY, pointX, pointY);
+                }
+                catch
+                {
 
-            }
-
-            Pen zAxisPen = new Pen(Color.FromArgb(255, 255, 255, 255));
-            try
-            {
-                g.DrawLine(zAxisPen, originPoint_rot_projected.X, originPoint_rot_projected.Y, zAxisPoint_rot_projected.X, zAxisPoint_rot_projected.Y);
-            }
-            catch
-            {
-
+                }
             }
 
             Point lastPoint = new Point(0, 0);
 
             for (int i = 0; i < globalPoints.Count; i++)
             {
+                // calculate each point transformation and then project
+                // 1: rotation, 2: translation, 3: project to 2D screen
                 Vector3D rawGlobalPoint = globalPoints[i];
                 Vector3D rotatedGlobalPoint = Rotate3DPoint(rawGlobalPoint, worldRotateX, worldRotateY, worldRotateZ);
                 Vector3D translatedGlobalPoint = Translate3DPoint(rotatedGlobalPoint, -worldTranslateX, worldTranslateY, -worldTranslateZ);
                 Point projectedGlobalPoint = Project3DPoint(translatedGlobalPoint, cameraFocalLength);
 
-                // int fogColor = 255;
+                // calculate point distance to simulated camera
                 double distance = Math.Sqrt(
                         Math.Pow(worldTranslateX - rotatedGlobalPoint.x, 2) +
                         Math.Pow(-worldTranslateY - rotatedGlobalPoint.y, 2) +
                         Math.Pow(worldTranslateZ - rotatedGlobalPoint.z, 2)
                     );
 
-                double lightLevel = 500 / (distance + 1);
+                // calculate lightFalloff using the distance
+                double lightFalloff = 500 / (distance + 1);
 
-                int lightValue = (int)(255 * lightLevel);
+                int lightValue = (int)(255 * lightFalloff);
+
                 if (lightValue > 255)
                     lightValue = 255;
 
+                // make the graph a greenish color
                 Pen graphPen = new Pen(Color.FromArgb(255, lightValue / 3, lightValue, lightValue / 2));
 
+                // add viewport offsets
                 int pointX = projectedGlobalPoint.X + viewportOffsetX;
                 int pointY = projectedGlobalPoint.Y + viewportOffsetY;
 
@@ -201,7 +266,7 @@ namespace Simple3DRenderer
                             size = 5;
                             graphPen = new Pen(Color.FromArgb(255, lightValue, lightValue / 4, lightValue));
                         }
-                            g.DrawEllipse(graphPen, pointX, pointY, size, size);
+                        g.DrawEllipse(graphPen, pointX, pointY, size, size);
                     }
 
                     if (DrawLinesCheckBox.Checked)
@@ -248,13 +313,13 @@ namespace Simple3DRenderer
         bool aPressed = false;
         bool dPressed = false;
 
-        bool ctrlPressed = false;
+        bool ctrlPressed = false; // for moving faster
 
-        bool zPressed = false;
-        bool xPressed = false;
+        bool zPressed = false; // for going up
+        bool xPressed = false; // for going down
 
-        bool qPressed = false;
-        bool ePressed = false;
+        bool qPressed = false; // for rotating counter-clockwise
+        bool ePressed = false; // for rotating clockwise
 
         private void MainWindow_KeyDown(object sender, KeyEventArgs e)
         {
@@ -342,11 +407,11 @@ namespace Simple3DRenderer
 
             if (qPressed)
             {
-                worldRotateZ += moveSpeed / 2;
+                worldRotateZ -= moveSpeed / 2;
             }
             if (ePressed)
             {
-                worldRotateZ -= moveSpeed / 2;
+                worldRotateZ += moveSpeed / 2;
             }
 
             UpdateUI();
@@ -397,12 +462,10 @@ namespace Simple3DRenderer
         {
             if ((keyData & Keys.Control) == Keys.Control)
             {
-                // Control key is pressed
                 ctrlPressed = true;
             }
             else if ((keyData & Keys.Control) == Keys.None)
             {
-                // Control key is released
                 ctrlPressed = false;
             }
 

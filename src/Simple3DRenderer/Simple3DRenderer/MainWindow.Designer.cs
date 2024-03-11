@@ -285,8 +285,10 @@
             // DrawPointsCheckBox
             // 
             this.DrawPointsCheckBox.AutoSize = true;
+            this.DrawPointsCheckBox.Checked = true;
+            this.DrawPointsCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
             this.DrawPointsCheckBox.ForeColor = System.Drawing.Color.White;
-            this.DrawPointsCheckBox.Location = new System.Drawing.Point(1335, 266);
+            this.DrawPointsCheckBox.Location = new System.Drawing.Point(1316, 204);
             this.DrawPointsCheckBox.Name = "DrawPointsCheckBox";
             this.DrawPointsCheckBox.Size = new System.Drawing.Size(83, 17);
             this.DrawPointsCheckBox.TabIndex = 32;
@@ -298,7 +300,7 @@
             // 
             this.DrawLinesCheckBox.AutoSize = true;
             this.DrawLinesCheckBox.ForeColor = System.Drawing.Color.White;
-            this.DrawLinesCheckBox.Location = new System.Drawing.Point(1335, 284);
+            this.DrawLinesCheckBox.Location = new System.Drawing.Point(1316, 222);
             this.DrawLinesCheckBox.Name = "DrawLinesCheckBox";
             this.DrawLinesCheckBox.Size = new System.Drawing.Size(79, 17);
             this.DrawLinesCheckBox.TabIndex = 33;
