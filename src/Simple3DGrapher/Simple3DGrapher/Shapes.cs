@@ -2,9 +2,9 @@
 using System.Numerics;
 using System.Collections.Generic;
 
-using static Simple3DRenderer.MathTools;
+using static Simple3DGrapher.MathTools;
 
-namespace Simple3DRenderer
+namespace Simple3DGrapher
 {
     public static class Shapes
     {

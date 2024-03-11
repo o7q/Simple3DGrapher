@@ -4,10 +4,10 @@ using System.Windows.Forms;
 using System.Drawing;
 using System.Collections.Generic;
 
-using static Simple3DRenderer.Shapes;
-using static Simple3DRenderer.MathTools;
+using static Simple3DGrapher.Shapes;
+using static Simple3DGrapher.MathTools;
 
-namespace Simple3DRenderer
+namespace Simple3DGrapher
 {
     public partial class MainWindow : Form
     {

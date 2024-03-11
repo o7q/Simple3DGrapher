@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Simple3DRenderer
+namespace Simple3DGrapher
 {
     internal static class Init
     {

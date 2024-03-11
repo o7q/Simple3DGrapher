@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Drawing;
 
-namespace Simple3DRenderer
+namespace Simple3DGrapher
 {
     public static class MathTools
     {

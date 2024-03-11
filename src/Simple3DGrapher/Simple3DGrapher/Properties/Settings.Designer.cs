@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Simple3DRenderer.Properties
+namespace Simple3DGrapher.Properties
 {
 
 

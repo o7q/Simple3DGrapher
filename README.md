@@ -1,6 +1,6 @@
-# Simple3DRenderer (work in progress!)
-A basic 3D renderer built with WinForms. \
-I originally made this program as a **3D grapher** to graph the **imaginary plane**. It currently works as such but it has a **lot of bugs**.
+# Simple3DGrapher (work in progress!)
+A basic 3D grapher built with WinForms. \
+I originally made this program to graph the **imaginary plane**. There are **lot of bugs**!
 
 <img src="assets/images/1.png">
 <img src="assets/images/2.png">

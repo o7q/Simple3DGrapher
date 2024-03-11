@@ -1,4 +1,4 @@
-﻿namespace Simple3DRenderer
+﻿namespace Simple3DGrapher
 {
     partial class MainWindow
     {
@@ -339,7 +339,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.KeyPreview = true;
             this.Name = "MainWindow";
-            this.Text = "Simple3DRenderer";
+            this.Text = "Simple3DGrapher";
             this.Load += new System.EventHandler(this.MainWindow_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MainWindow_KeyDown);
             this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.MainWindow_KeyUp);
