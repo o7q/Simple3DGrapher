@@ -6,8 +6,8 @@ I originally made this program as a **3D grapher** to graph the **imaginary plan
 <img src="assets/images/2.png">
 
 # Camera Controls
-- **SHIFT + M_MOUSE** Pan camera
-- **M_MOUSE** Rotate camera about origin
+- **SHIFT + M_MOUSE/L_MOUSE** Pan camera
+- **M_MOUSE/L_MOUSE** Rotate camera about origin
 
 # Movement Controls
 - **W, S, A, D** Basic movement

@@ -290,14 +290,14 @@ namespace Simple3DRenderer
 
         private void RenderPictureBox_MouseDown(object sender, MouseEventArgs e)
         {
-            if (e.Button == MouseButtons.Middle && (ModifierKeys & Keys.Shift) == Keys.Shift)
+            if ((e.Button == MouseButtons.Left || e.Button == MouseButtons.Middle) && (ModifierKeys & Keys.Shift) == Keys.Shift)
             {
                 isDragging = true;
 
                 initalMouse_x = Cursor.Position.X + worldTranslateX;
                 initalMouse_y = Cursor.Position.Y - worldTranslateY;
             }
-            else if (e.Button == MouseButtons.Middle)
+            else if (e.Button == MouseButtons.Left || e.Button == MouseButtons.Middle)
             {
                 isDragging_rotation = true;
 
