@@ -5,33 +5,10 @@ namespace Simple3DRenderer
 {
     public static class MathTools
     {
-/*        public struct Point3D
-        {
-            public int x, y, z;
-        }
-*/
         public struct Vector3D
         {
             public double x, y, z;
         }
-
-/*        public static Vector3D PointToVector3D(Point3D point)
-        {
-            Vector3D vector = new Vector3D();
-            vector.x = point.x;
-            vector.y = point.y;
-            vector.z = point.z;
-            return vector;
-        }
-
-        public static Point3D Vector3DToPoint(Vector3D vector)
-        {
-            Point3D point = new Point3D();
-            point.x = (int)vector.x;
-            point.y = (int)vector.y;
-            point.z = (int)vector.z;
-            return point;
-        }*/
 
         public static Vector3D Rotate3DPoint(Vector3D point, double rotationX, double rotationY, double rotationZ)
         {
