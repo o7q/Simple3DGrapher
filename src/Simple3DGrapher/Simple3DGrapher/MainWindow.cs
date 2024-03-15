@@ -44,17 +44,17 @@ namespace Simple3DGrapher
             AddObjectToWorld(sineCurve);
 
             // 10x10x10 cubes
-            /*            for (int x = 0; x < 20; x++)
-                        {
-                            for (int y = 0; y < 20; y++)
-                            {
-                                for (int z = 0; z < 20; z++)
-                                {
-                                    Vector3D[] cube = Geometry.CreateCube(x * 50, y * 50, z * 50, 20, 20, 20);
-                                    AddObjectToWorld(cube);
-                                }
-                            }
-                        }*/
+            /*for (int x = 0; x < 10; x++)
+            {
+                for (int y = 0; y < 10; y++)
+                {
+                    for (int z = 0; z < 10; z++)
+                    {
+                        Vector3D[] cube = Geometry.CreateCube(x * 50, y * 50, z * 50, 20, 20, 20);
+                        AddObjectToWorld(cube);
+                    }
+                }
+            }*/
         }
 
         private void AddObjectToWorld(Vector3D[] points)
