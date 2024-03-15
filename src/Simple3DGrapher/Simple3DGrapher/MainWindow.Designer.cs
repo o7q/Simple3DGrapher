@@ -50,6 +50,8 @@
             this.WorldRotationXTextBox = new System.Windows.Forms.TextBox();
             this.DrawPointsCheckBox = new System.Windows.Forms.CheckBox();
             this.DrawLinesCheckBox = new System.Windows.Forms.CheckBox();
+            this.ResetOrientationButton = new System.Windows.Forms.Button();
+            this.DebugLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.RenderPictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.OffsetXTrackBar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.OffsetYTrackBar)).BeginInit();
@@ -308,12 +310,37 @@
             this.DrawLinesCheckBox.UseVisualStyleBackColor = true;
             this.DrawLinesCheckBox.CheckedChanged += new System.EventHandler(this.DrawLinesCheckBox_CheckedChanged);
             // 
+            // ResetOrientationButton
+            // 
+            this.ResetOrientationButton.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
+            this.ResetOrientationButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ResetOrientationButton.ForeColor = System.Drawing.Color.White;
+            this.ResetOrientationButton.Location = new System.Drawing.Point(1317, 243);
+            this.ResetOrientationButton.Name = "ResetOrientationButton";
+            this.ResetOrientationButton.Size = new System.Drawing.Size(103, 37);
+            this.ResetOrientationButton.TabIndex = 34;
+            this.ResetOrientationButton.Text = "Reset Orientation";
+            this.ResetOrientationButton.UseVisualStyleBackColor = true;
+            this.ResetOrientationButton.Click += new System.EventHandler(this.ResetOrientationButton_Click);
+            // 
+            // DebugLabel
+            // 
+            this.DebugLabel.AutoSize = true;
+            this.DebugLabel.ForeColor = System.Drawing.Color.White;
+            this.DebugLabel.Location = new System.Drawing.Point(1317, 286);
+            this.DebugLabel.Name = "DebugLabel";
+            this.DebugLabel.Size = new System.Drawing.Size(56, 13);
+            this.DebugLabel.TabIndex = 35;
+            this.DebugLabel.Text = "Debug Off";
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(16)))), ((int)(((byte)(16)))), ((int)(((byte)(16)))));
             this.ClientSize = new System.Drawing.Size(1492, 584);
+            this.Controls.Add(this.DebugLabel);
+            this.Controls.Add(this.ResetOrientationButton);
             this.Controls.Add(this.DrawLinesCheckBox);
             this.Controls.Add(this.DrawPointsCheckBox);
             this.Controls.Add(this.label7);
@@ -376,6 +403,8 @@
         private System.Windows.Forms.TextBox WorldRotationXTextBox;
         private System.Windows.Forms.CheckBox DrawPointsCheckBox;
         private System.Windows.Forms.CheckBox DrawLinesCheckBox;
+        private System.Windows.Forms.Button ResetOrientationButton;
+        private System.Windows.Forms.Label DebugLabel;
     }
 }
 

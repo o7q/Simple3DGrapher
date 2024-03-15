@@ -37,21 +37,24 @@ namespace Simple3DGrapher
             moveTimer.Elapsed += new ElapsedEventHandler(MoveForward);
             moveTimer.Interval = 5;
 
-            Vector3D[] imaginaryCurve = Graph.CreateImaginaryCurve(0, 0, 0, 10, 10, 100, 100);
+            Vector3D[] imaginaryCurve = Graph.CreateImaginaryCurve(0 + Math.PI * 5, 0, 0, 10 * Math.PI, 10, 10, 500, 0.05);
             AddObjectToWorld(imaginaryCurve);
 
+            Vector3D[] sineCurve = Graph.CreateSineCurve(0, 20, 0, 10, 10, 1000, 0.1);
+            AddObjectToWorld(sineCurve);
+
             // 10x10x10 cubes
-            for (int x = 0; x < 10; x++)
-            {
-                for (int y = 0; y < 10; y++)
-                {
-                    for (int z = 0; z < 10; z++)
-                    {
-                        Vector3D[] cube = Geometry.CreateCube(x * 50, y * 50, z * 50, 20, 20, 20);
-                        AddObjectToWorld(cube);
-                    }
-                }
-            }
+            /*            for (int x = 0; x < 20; x++)
+                        {
+                            for (int y = 0; y < 20; y++)
+                            {
+                                for (int z = 0; z < 20; z++)
+                                {
+                                    Vector3D[] cube = Geometry.CreateCube(x * 50, y * 50, z * 50, 20, 20, 20);
+                                    AddObjectToWorld(cube);
+                                }
+                            }
+                        }*/
         }
 
         private void AddObjectToWorld(Vector3D[] points)
@@ -71,20 +74,20 @@ namespace Simple3DGrapher
             {
                 Pen gridPen = new Pen(Color.FromArgb(255, 100, 100, 100));
 
-                for (int y = -100; y < 100; y++)
+                for (int y = 100; y > -100; y--)
                 {
                     Vector3D point = new Vector3D
                     {
                         x = 0,
-                        y = y * -10,
+                        y = y * 10,
                         z = 0
                     };
 
                     Vector3D point2 = new Vector3D
                     {
-                        x = 0,
-                        y = y * -10,
-                        z = 10 * 100 * 2 - 10
+                        x = 10 * 100 * 2 - 10,
+                        y = y * 10,
+                        z = 0
                     };
 
                     Point point1_proj = Process3DPoint(point, -worldTranslateX, worldTranslateY, -worldTranslateZ, worldRotateX, worldRotateY, worldRotateZ, cameraFocalLength);
@@ -106,20 +109,20 @@ namespace Simple3DGrapher
                     }
                 }
 
-                for (int z = 0; z < 200; z++)
+                for (int x = 0; x < 200; x++)
                 {
                     Vector3D point = new Vector3D
                     {
-                        x = 0,
+                        x = x * 10,
                         y = 100 * 10,
-                        z = z * 10
+                        z = 0
                     };
 
                     Vector3D point2 = new Vector3D
                     {
-                        x = 0,
+                        x = x * 10,
                         y = 10 + -100 * 10,
-                        z = z * 10
+                        z = 0
                     };
 
                     Point point1_proj = Process3DPoint(point, -worldTranslateX, worldTranslateY, -worldTranslateZ, worldRotateX, worldRotateY, worldRotateZ, cameraFocalLength);
@@ -227,8 +230,11 @@ namespace Simple3DGrapher
                 // calculate each point transformation and then project
                 // 1: rotation, 2: translation, 3: project to 2D screen
                 Vector3D rawGlobalPoint = globalPoints[i];
+                rawGlobalPoint.y = -rawGlobalPoint.y;
                 Vector3D rotatedGlobalPoint = Rotate3DPoint(rawGlobalPoint, worldRotateX, worldRotateY, worldRotateZ);
+                // translate the point, negate x,y values to prevent inverted movement
                 Vector3D translatedGlobalPoint = Translate3DPoint(rotatedGlobalPoint, -worldTranslateX, worldTranslateY, -worldTranslateZ);
+
                 Point projectedGlobalPoint = Project3DPoint(translatedGlobalPoint, cameraFocalLength);
 
                 // calculate point distance to simulated camera
@@ -253,29 +259,24 @@ namespace Simple3DGrapher
                 int pointX = projectedGlobalPoint.X + viewportOffsetX;
                 int pointY = projectedGlobalPoint.Y + viewportOffsetY;
 
-                if (pointX >= int.MaxValue || pointX <= int.MinValue || pointY >= int.MaxValue || pointY <= int.MinValue)
-                    return;
+                // point culling, prevent drawing of offscreen points to improve performance
+                if (pointX > RenderPictureBox.Width || pointX < 0 || pointY > RenderPictureBox.Height || pointY < 0)
+                    continue;
 
-                try
+                if (DrawPointsCheckBox.Checked)
                 {
-                    if (DrawPointsCheckBox.Checked)
+                    int size = 2;
+                    // if the point intersects the graph, indicate it with a color change
+                    if (Math.Abs(rawGlobalPoint.z) <= 1)
                     {
-                        int size = 2;
-                        if (rawGlobalPoint.x == 0)
-                        {
-                            size = 5;
-                            graphPen = new Pen(Color.FromArgb(255, lightValue, lightValue / 4, lightValue));
-                        }
-                        g.DrawEllipse(graphPen, pointX, pointY, size, size);
+                        size = 5;
+                        graphPen = new Pen(Color.FromArgb(255, lightValue, lightValue / 4, lightValue));
                     }
-
-                    if (DrawLinesCheckBox.Checked)
-                        g.DrawLine(graphPen, pointX, pointY, lastPoint.X, lastPoint.Y);
+                    g.DrawEllipse(graphPen, pointX, pointY, size, size);
                 }
-                catch
-                {
 
-                }
+                if (DrawLinesCheckBox.Checked)
+                    g.DrawLine(graphPen, pointX, pointY, lastPoint.X, lastPoint.Y);
 
                 lastPoint = projectedGlobalPoint;
             }
@@ -482,6 +483,21 @@ namespace Simple3DGrapher
             UpdateUI();
         }
 
+        private void ResetOrientationButton_Click(object sender, EventArgs e)
+        {
+            worldTranslateX = 0;
+            worldTranslateY = 0;
+            worldTranslateZ = 0;
+
+            worldRotateX = 0;
+            worldRotateY = 0;
+            worldRotateZ = 0;
+
+            cameraFocalLength = 1000;
+
+            UpdateUI();
+        }
+
         private void RenderPictureBox_MouseUp(object sender, MouseEventArgs e)
         {
             isDragging = false;
@@ -538,6 +554,8 @@ namespace Simple3DGrapher
                 WorldRotationXTextBox.Text = worldRotateX.ToString();
                 WorldRotationYTextBox.Text = worldRotateY.ToString();
                 WorldRotationZTextBox.Text = worldRotateZ.ToString();
+
+                DebugLabel.Text = DegreesToRadians(worldRotateY).ToString();
             });
         }
     }

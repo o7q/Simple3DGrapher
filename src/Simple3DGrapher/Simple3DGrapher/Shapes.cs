@@ -59,54 +59,70 @@ namespace Simple3DGrapher
 
         public static class Graph
         {
-            public static Vector3D[] CreateImaginaryCurve(int locX, int locY, int locZ, int scaleX, int scaleY, int length, int step)
+            public static Vector3D[] CreateImaginaryCurve(double locX, double locY, double locZ, double scaleX, double scaleY, double scaleZ, int length, double step)
             {
                 List<Complex> imaginaryCurve = new List<Complex>();
 
-                for (double i = 0; i < length; i += 1 / (double)step)
+                for (double i = 0; i < length; i += step)
                 {
                     Complex imaginarySqrt = Complex.Pow(-1, i);
                     imaginaryCurve.Add(imaginarySqrt);
                 }
 
-                Vector3D[] imaginaryCurvePoints = new Vector3D[imaginaryCurve.Count];
+                Vector3D[] imaginaryCurvePoints = new Vector3D[length];
 
-                for (int i = 0; i < imaginaryCurve.Count; i++)
+                for (int i = 0; i < length; i++)
                 {
-                    imaginaryCurvePoints[i].x = (int)(imaginaryCurve[i].Real * scaleX) + locX;
-                    imaginaryCurvePoints[i].y = (int)(imaginaryCurve[i].Imaginary * scaleY) + locY;
-                    imaginaryCurvePoints[i].z = i + locZ;
+                    imaginaryCurvePoints[i].x = i * step * scaleX + locX;
+                    imaginaryCurvePoints[i].y = imaginaryCurve[i].Real * scaleY + locY;
+                    imaginaryCurvePoints[i].z = imaginaryCurve[i].Imaginary * scaleZ + locZ;
                 }
 
                 return imaginaryCurvePoints;
             }
 
-            public static Vector3D[] CreateSineCurve(int locX, int locY, int locZ, int scaleX, int scaleY, int length)
+            public static Vector3D[] CreateSineCurve(double locX, double locY, double locZ, double scaleX, double scaleY, int length, double step)
             {
-                Vector3D[] sineCurve = new Vector3D[length];
+                List<double> sineCurve = new List<double>();
 
-                for (int i = 0; i < sineCurve.Length; i++)
+                for (double i = 0; i < length; i += step)
                 {
-                    sineCurve[i].x = i * scaleX + locX;
-                    sineCurve[i].y = (int)(Math.Sin(i) * scaleY) + locY;
-                    sineCurve[i].z = locZ;
+                    double sine = Math.Sin(i);
+                    sineCurve.Add(sine);
                 }
 
-                return sineCurve;
+                Vector3D[] sineCurvePoints = new Vector3D[length];
+
+                for (int i = 0; i < length; i++)
+                {
+                    sineCurvePoints[i].x = i * step * scaleX + locX;
+                    sineCurvePoints[i].y = sineCurve[i] * scaleY + locY;
+                    sineCurvePoints[i].z = locZ;
+                }
+
+                return sineCurvePoints;
             }
 
-            public static Vector3D[] CreateTangentCurve(int locX, int locY, int locZ, int scaleX, int scaleY, int length)
+            public static Vector3D[] CreateTangentCurve(double locX, double locY, double locZ, double scaleX, double scaleY, int length, double step)
             {
-                Vector3D[] tangentCurve = new Vector3D[length];
+                List<double> tangetCurve = new List<double>();
 
-                for (int i = 0; i < tangentCurve.Length; i++)
+                for (double i = 0; i < length; i += step)
                 {
-                    tangentCurve[i].x = i * scaleX + locX;
-                    tangentCurve[i].y = (int)(Math.Tan(i) * scaleY) + locY;
-                    tangentCurve[i].z = locZ;
+                    double sine = Math.Tan(i);
+                    tangetCurve.Add(sine);
                 }
 
-                return tangentCurve;
+                Vector3D[] tangetCurvePoints = new Vector3D[length];
+
+                for (int i = 0; i < length; i++)
+                {
+                    tangetCurvePoints[i].x = i * step * scaleX + locX;
+                    tangetCurvePoints[i].y = tangetCurve[i] * scaleY + locY;
+                    tangetCurvePoints[i].z = locZ;
+                }
+
+                return tangetCurvePoints;
             }
         }
     }
