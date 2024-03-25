@@ -4,7 +4,6 @@ using System.Windows.Forms;
 using System.Drawing;
 using System.Collections.Generic;
 
-using static Simple3DGrapher.Shapes;
 using static Simple3DGrapher.MathTools;
 
 namespace Simple3DGrapher
@@ -37,11 +36,11 @@ namespace Simple3DGrapher
             moveTimer.Elapsed += new ElapsedEventHandler(MoveForward);
             moveTimer.Interval = 5;
 
-            Vector3D[] imaginaryCurve = Graph.CreateImaginaryCurve(0 + Math.PI * 5, 0, 0, 10 * Math.PI, 10, 10, 500, 0.05);
-            AddObjectToWorld(imaginaryCurve);
+            /*            Vector3D[] imaginaryCurve = Graph.CreateImaginaryCurve(0 + Math.PI * 5, 0, 0, 10 * Math.PI, 10, 10, 500, 0.05);
+                        AddObjectToWorld(imaginaryCurve);
 
-            Vector3D[] sineCurve = Graph.CreateSineCurve(0, 20, 0, 10, 10, 1000, 0.1);
-            AddObjectToWorld(sineCurve);
+                        Vector3D[] sineCurve = Graph.CreateSineCurve(0, 20, 0, 10, 10, 1000, 0.1);
+                        AddObjectToWorld(sineCurve);*/
 
             // 10x10x10 cubes
             /*for (int x = 0; x < 10; x++)
@@ -55,6 +54,7 @@ namespace Simple3DGrapher
                     }
                 }
             }*/
+
         }
 
         private void AddObjectToWorld(Vector3D[] points)
@@ -71,7 +71,7 @@ namespace Simple3DGrapher
             Graphics g = e.Graphics;
 
             // draw 2d grid
-            {
+        /*    {
                 Pen gridPen = new Pen(Color.FromArgb(255, 100, 100, 100));
 
                 for (int y = 100; y > -100; y--)
@@ -143,10 +143,10 @@ namespace Simple3DGrapher
 
                     }
                 }
-            }
+            }*/
 
             // draw axis
-            {
+        /*    {
                 Vector3D originPoint = new Vector3D
                 {
                     x = 0,
@@ -221,7 +221,7 @@ namespace Simple3DGrapher
                 {
 
                 }
-            }
+            }*/
 
             Point lastPoint = new Point(0, 0);
 
@@ -494,6 +494,49 @@ namespace Simple3DGrapher
             worldRotateZ = 0;
 
             cameraFocalLength = 1000;
+
+            UpdateUI();
+        }
+
+        private void TestButton_Click(object sender, EventArgs e)
+        {
+            globalPoints.Clear();
+
+            int randomWalkCount = 10000;
+            Vector3D[] randomWalk = new Vector3D[randomWalkCount];
+            Random rand = new Random();
+            double x = 0;
+            double y = 0;
+            double z = 0;
+            for (int i = 0; i < randomWalkCount; i++)
+            {
+                switch (rand.Next(6))
+                {
+                    case 0:
+                        x += 1;
+                        break;
+                    case 1:
+                        x -= 1;
+                        break;
+                    case 2:
+                        y += 1;
+                        break;
+                    case 3:
+                        y -= 1;
+                        break;
+                    case 4:
+                        z += 1;
+                        break;
+                    case 5:
+                        z -= 1;
+                        break;
+                }
+                randomWalk[i].x = x;
+                randomWalk[i].y = y;
+                randomWalk[i].z = z;
+            }
+
+            AddObjectToWorld(randomWalk);
 
             UpdateUI();
         }

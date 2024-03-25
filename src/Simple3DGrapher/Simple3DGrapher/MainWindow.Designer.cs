@@ -52,6 +52,7 @@
             this.DrawLinesCheckBox = new System.Windows.Forms.CheckBox();
             this.ResetOrientationButton = new System.Windows.Forms.Button();
             this.DebugLabel = new System.Windows.Forms.Label();
+            this.TestButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.RenderPictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.OffsetXTrackBar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.OffsetYTrackBar)).BeginInit();
@@ -333,12 +334,23 @@
             this.DebugLabel.TabIndex = 35;
             this.DebugLabel.Text = "Debug Off";
             // 
+            // TestButton
+            // 
+            this.TestButton.Location = new System.Drawing.Point(1322, 318);
+            this.TestButton.Name = "TestButton";
+            this.TestButton.Size = new System.Drawing.Size(75, 23);
+            this.TestButton.TabIndex = 36;
+            this.TestButton.Text = "TestButton";
+            this.TestButton.UseVisualStyleBackColor = true;
+            this.TestButton.Click += new System.EventHandler(this.TestButton_Click);
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(16)))), ((int)(((byte)(16)))), ((int)(((byte)(16)))));
             this.ClientSize = new System.Drawing.Size(1492, 584);
+            this.Controls.Add(this.TestButton);
             this.Controls.Add(this.DebugLabel);
             this.Controls.Add(this.ResetOrientationButton);
             this.Controls.Add(this.DrawLinesCheckBox);
@@ -405,6 +417,7 @@
         private System.Windows.Forms.CheckBox DrawLinesCheckBox;
         private System.Windows.Forms.Button ResetOrientationButton;
         private System.Windows.Forms.Label DebugLabel;
+        private System.Windows.Forms.Button TestButton;
     }
 }
 
