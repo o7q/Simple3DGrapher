@@ -1,4 +1,7 @@
-# Simple3DGrapher (work in progress!)
+# This repository is no longer maintained.
+**I made this program to get a grasp on basic 3D graphics. I have no plans to update it.**
+
+# Simple3DGrapher
 A basic 3D grapher built with WinForms. \
 I originally made this program to graph the **imaginary plane**. Warning, there are **lots of bugs**!
 
